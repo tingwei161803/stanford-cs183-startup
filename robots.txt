@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stanford-cs183-startup.peteraim.com/sitemap.xml
