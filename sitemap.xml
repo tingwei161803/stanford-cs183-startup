@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  本站自己的 sitemap。刻意不寫 <lastmod>:沒有可信的「內容最後修改時間」
+  來源(git commit 時間不等於內容變動時間),給錯的 lastmod 比不給更糟。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-1.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-10.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-11.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-12.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-13.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-14.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-15.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-16.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-17.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-18.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-19.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-2.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-3.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-4.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-5.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-6.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-7.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-8.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/class-9.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/flashcards.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/glossary.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/quiz.html</loc>
+  </url>
+</urlset>

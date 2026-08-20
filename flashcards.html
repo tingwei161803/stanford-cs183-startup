@@ -29,7 +29,9 @@
 </head>
 <body data-page="flashcards">
   <!-- shell.js injects the app bar, cross-page nav, footer and dialog around this -->
-  <main id="page"></main>
+  <main id="page">
+<header class="page-head"><h1>Flashcards</h1><p class="page-head__sub">Flip through the core concepts, one card at a time.</p></header><p class="deck-hint">Click the card (or press Space) to flip it; use the arrow keys to move between cards.</p><div class="deck"><div class="deck-stage" id="deckStage"><div class="flip-card" id="flipCard" tabindex="0" role="button" data-item="" aria-label="Flip"><div class="flip-inner"><div class="flip-face flip-front"><span class="flip-label">Concept</span><p>0 to 1 vs. 1 to n</p><span class="flip-cls">Class 1</span></div><div class="flip-face flip-back"><span class="flip-label">Answer</span><p>0 to 1 = vertical progress: creating something new (technology). 1 to n = horizontal progress: copying what works (globalization).</p><span class="flip-cls">Class 1</span></div></div></div></div><div class="deck-ctrls"><button class="icon-btn deck-btn" id="deckPrev" type="button" aria-label="Previous class"><span class="material-symbols-rounded">arrow_back</span></button><button class="btn-ink" id="deckFlip" type="button">Flip</button><button class="icon-btn deck-btn" id="deckNext" type="button" aria-label="Next class"><span class="material-symbols-rounded">arrow_forward</span></button><button class="icon-btn deck-btn" id="deckShuffle" type="button" aria-label="Shuffle" title="Shuffle"><span class="material-symbols-rounded">shuffle</span></button></div><p class="deck-count" id="deckCount" aria-live="polite">1 / 114</p></div>
+</main>
 
   <script src="data/data.js"></script>
   <script src="assets/shell.js"></script>
