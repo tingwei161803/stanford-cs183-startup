@@ -24,8 +24,10 @@
 
   /* ---------- chrome i18n (page content strings live in the data) ---------- */
   var I18N = {
-    en: { close: "Close", menu: "Pages", skip: "Skip to content" },
-    zh: { close: "關閉", menu: "頁面", skip: "跳到內容" }
+    en: { close: "Close", menu: "Pages", skip: "Skip to content",
+          klass: function (n) { return "Class " + n; } },
+    zh: { close: "關閉", menu: "頁面", skip: "跳到內容",
+          klass: function (n) { return "第 " + n + " 課"; } }
   };
 
   /* ---------- sandbox-safe localStorage ---------- */
@@ -45,6 +47,7 @@
     return obj[state.lang] || obj.en || obj.zh || "";
   }
   function ui(key) { return (I18N[state.lang] || I18N.en)[key]; }
+  function classLabel(n) { return ui("klass")(n); }
   function escapeHtml(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (m) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
@@ -183,8 +186,15 @@
     document.documentElement.setAttribute("lang", state.lang);
     var page = currentPage();
     var siteTitle = t(META.title);
+    /* same shape as the title in the served HTML: the class number belongs in
+       it, and the hub is the site itself so it never repeats the site name */
     var pageTitle = page ? t(page.title) : "";
-    document.title = pageTitle ? pageTitle + " · " + siteTitle : siteTitle;
+    if (pageTitle && typeof page.classNo === "number") {
+      pageTitle = classLabel(page.classNo) +
+        (state.lang === "en" ? ": " : ":") + pageTitle;
+    }
+    document.title = (pageTitle && pageTitle !== siteTitle)
+      ? pageTitle + " · " + siteTitle : siteTitle;
 
     var brand = document.getElementById("brandName");
     if (brand) brand.textContent = siteTitle;
@@ -233,7 +243,7 @@
   window.LDW = {
     ready: false,          // flipped true once the chrome (incl. #dialog) is injected
     state: state,
-    t: t, ui: ui, escapeHtml: escapeHtml, r: r,
+    t: t, ui: ui, classLabel: classLabel, escapeHtml: escapeHtml, r: r,
     lsGet: lsGet, lsSet: lsSet,
     pages: PAGES, meta: META,
     currentPage: currentPage, currentSlug: currentSlug, pageHref: pageHref,

@@ -70,9 +70,7 @@
       }[L.state.lang];
     }
 
-    function classLabel(n) {
-      return L.state.lang === "en" ? "Class " + n : "第 " + n + " 課";
-    }
+    var classLabel = L.classLabel;   // "Class 7" / "第 7 課" — shared with the chrome
 
     /* lesson content blocks: p | h3 | ul | quote | code | table | cards */
     function lessonBlock(b) {
