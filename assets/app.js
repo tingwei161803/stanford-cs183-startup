@@ -6,8 +6,10 @@
 
      1. reads the current page from <body data-page="..."> (via LDW),
      2. picks a renderer from RENDERERS by that page's `layout`,
-     3. paints it into <main id="page"> and wires its interactions,
-     4. registers an onLang() callback so a language switch repaints the body.
+     3. paints it into <main id="page"> and wires its interactions.
+
+   Which language comes out is fixed by the page's own <html lang> — the other
+   language lives at a different URL, so there is no in-page switch to repaint.
 
    RENDERERS is the LAYOUT REGISTRY — one entry per supported page layout:
      hub | gallery | article | dashboard | timeline | table |
@@ -102,8 +104,8 @@
     }
 
     /* ---- shared quiz engine (lesson pages + the exam page) ----
-       Answers are session-only, keyed "<prefix>:<index>" so they survive
-       language-switch repaints but reset on reload (deliberately ephemeral). */
+       Answers are session-only, keyed "<prefix>:<index>" so they survive a
+       repaint but reset on reload (deliberately ephemeral). */
     var quizAnswers = {};
 
     function quizHtml(items, keyPrefix) {
@@ -163,7 +165,7 @@
       teardowns.push(function () { container.removeEventListener("click", onClick); });
     }
 
-    /* flashcard deck state — survives language switches, resets on reload */
+    /* flashcard deck state — survives a repaint, resets on reload */
     var deckOrder = null, deckI = 0, deckFlipped = false;
 
     function barChart(series, accent) {
@@ -1035,7 +1037,7 @@
     }
 
     /* =====================================================================
-       RENDER the current page; re-runnable on language switch
+       RENDER the current page; re-runnable (quiz answers repaint in place)
        ===================================================================== */
     function render() {
       teardowns.forEach(function (fn) { try { fn(); } catch (e) {} });
@@ -1065,7 +1067,6 @@
       teardowns.push(function () { io.disconnect(); });
     }
 
-    L.onLang(render);
     render();
   }
 
