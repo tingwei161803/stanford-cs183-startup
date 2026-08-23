@@ -5,6 +5,9 @@
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/</loc>
+  </url>
+  <url>
     <loc>https://stanford-cs183-startup.peteraim.com/class-1.html</loc>
   </url>
   <url>
@@ -68,9 +71,75 @@
     <loc>https://stanford-cs183-startup.peteraim.com/glossary.html</loc>
   </url>
   <url>
-    <loc>https://stanford-cs183-startup.peteraim.com/</loc>
+    <loc>https://stanford-cs183-startup.peteraim.com/quiz.html</loc>
   </url>
   <url>
-    <loc>https://stanford-cs183-startup.peteraim.com/quiz.html</loc>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-1.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-10.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-11.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-12.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-13.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-14.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-15.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-16.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-17.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-18.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-19.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-2.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-3.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-4.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-5.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-6.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-7.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-8.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/class-9.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/flashcards.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/glossary.html</loc>
+  </url>
+  <url>
+    <loc>https://stanford-cs183-startup.peteraim.com/zh-Hant/quiz.html</loc>
   </url>
 </urlset>
