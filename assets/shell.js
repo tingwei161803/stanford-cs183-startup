@@ -6,15 +6,17 @@
    tiny toolkit on window.LDW that each page's app.js reuses.
 
    Loaded on EVERY page BEFORE app.js. It:
-     1. reads persisted lang/theme (localStorage, sandbox-safe),
+     1. reads the language from <html lang> and the theme from localStorage,
      2. injects app bar + nav + footer + dialog around <main id="page">,
-     3. wires the language / theme toggles,
-     4. highlights the current page (from <body data-page="...">),
-     5. lets app.js register an onLang() callback so a language switch repaints
-        BOTH the chrome AND the page body — nothing is ever left in one language.
+     3. wires the theme toggle and points the language link at this same page
+        in the other language,
+     4. highlights the current page (from <body data-page="...">).
 
-   Cross-page persistence is automatic: lang/theme live in localStorage (an
-   origin-wide store), so navigating to another .html restores the same state.
+   LANGUAGE IS DECIDED BY THE URL. English lives at the root, Chinese under
+   /zh-Hant/, and every page declares which one it is in <html lang>. Switching
+   language is a navigation, not a repaint — so each language of each page has
+   its own address that can be linked, shared and crawled. The theme still
+   persists in localStorage (origin-wide) across pages.
    ========================================================================= */
 (function () {
   "use strict";
@@ -24,17 +26,38 @@
 
   /* ---------- chrome i18n (page content strings live in the data) ---------- */
   var I18N = {
-    en: { close: "Close", menu: "Pages", skip: "Skip to content" },
-    zh: { close: "關閉", menu: "頁面", skip: "跳到內容" }
+    en: { close: "Close", menu: "Pages", skip: "Skip to content",
+          klass: function (n) { return "Class " + n; } },
+    zh: { close: "關閉", menu: "頁面", skip: "跳到內容",
+          klass: function (n) { return "第 " + n + " 課"; } }
   };
 
   /* ---------- sandbox-safe localStorage ---------- */
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
 
+  /* ---------- language: read from the address, never from storage ---------- */
+  var ZH_DIR = "/zh-Hant";                 // the secondary language lives here
+
+  function declaredLang() {
+    var v = (document.documentElement.getAttribute("lang") || "en").toLowerCase();
+    return v.indexOf("zh") === 0 ? "zh" : "en";
+  }
+
+  /* This same page in the other language: /class-1.html <-> /zh-Hant/class-1.html */
+  function twinLink() {
+    var path = location.pathname || "/";
+    var inZh = path === ZH_DIR || path.indexOf(ZH_DIR + "/") === 0;
+    return inZh
+      ? { href: path.slice(ZH_DIR.length) || "/", code: "en",      label: "EN",
+          title: "English version" }
+      : { href: ZH_DIR + path,                    code: "zh-Hant", label: "中",
+          title: "中文版" };
+  }
+
   /* ---------- global state ---------- */
   var state = {
-    lang:  lsGet("lang")  || "en",
+    lang:  declaredLang(),
     theme: lsGet("theme") || "light"
   };
 
@@ -45,6 +68,7 @@
     return obj[state.lang] || obj.en || obj.zh || "";
   }
   function ui(key) { return (I18N[state.lang] || I18N.en)[key]; }
+  function classLabel(n) { return ui("klass")(n); }
   function escapeHtml(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (m) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
@@ -59,10 +83,6 @@
     for (var i = 0; i < PAGES.length; i++) if (PAGES[i].slug === slug) return PAGES[i];
     return PAGES[0] || null;
   }
-
-  /* ---------- onLang callback registry (app.js plugs in here) ---------- */
-  var langSubscribers = [];
-  function onLang(fn) { if (typeof fn === "function") langSubscribers.push(fn); }
 
   /* =======================================================================
      CHROME INJECTION — app bar, nav, footer, dialog around <main id="page">
@@ -90,6 +110,9 @@
           '<span class="gh-star__count" id="ghStarCount">—</span>' +
         '</a>'
       : '';
+    /* language switch: a real link to this page's other-language address, so a
+       reader can bookmark it and a crawler can follow it */
+    var twin = twinLink();
     appbar.innerHTML =
       '<div class="appbar__inner">' +
         '<a class="brand" href="index.html">' +
@@ -98,10 +121,12 @@
         '</a>' +
         '<div class="appbar__actions">' +
           starHtml +
-          '<button class="icon-btn" id="langToggle" type="button" title="Language" aria-label="Toggle language / 切換語言">' +
+          '<a class="icon-btn" id="langToggle" href="' + escapeHtml(twin.href) + '"' +
+            ' hreflang="' + twin.code + '" lang="' + twin.code + '" rel="alternate"' +
+            ' title="' + escapeHtml(twin.title) + '" aria-label="' + escapeHtml(twin.title) + '">' +
             '<span class="material-symbols-rounded">translate</span>' +
-            '<span class="icon-btn__txt" id="langLabel">EN</span>' +
-          '</button>' +
+            '<span class="icon-btn__txt" id="langLabel">' + twin.label + '</span>' +
+          '</a>' +
           '<button class="icon-btn" id="themeToggle" type="button" title="Theme" aria-label="Toggle theme / 切換主題">' +
             '<span class="material-symbols-rounded" id="themeIcon">dark_mode</span>' +
           '</button>' +
@@ -180,11 +205,19 @@
 
   /* ---------- chrome text in the active language ---------- */
   function refreshChrome() {
-    document.documentElement.setAttribute("lang", state.lang);
+    /* <html lang> is left alone on purpose: the page declared its language and
+       that declaration is what its URL promises. */
     var page = currentPage();
     var siteTitle = t(META.title);
+    /* same shape as the title in the served HTML: the class number belongs in
+       it, and the hub is the site itself so it never repeats the site name */
     var pageTitle = page ? t(page.title) : "";
-    document.title = pageTitle ? pageTitle + " · " + siteTitle : siteTitle;
+    if (pageTitle && typeof page.classNo === "number") {
+      pageTitle = classLabel(page.classNo) +
+        (state.lang === "en" ? ": " : ":") + pageTitle;
+    }
+    document.title = (pageTitle && pageTitle !== siteTitle)
+      ? pageTitle + " · " + siteTitle : siteTitle;
 
     var brand = document.getElementById("brandName");
     if (brand) brand.textContent = siteTitle;
@@ -200,7 +233,7 @@
   }
 
   /* =======================================================================
-     THEME + LANGUAGE
+     THEME  (language needs no runtime switch — the link navigates)
      ===================================================================== */
   function applyTheme() {
     document.documentElement.setAttribute("data-theme", state.theme);
@@ -208,22 +241,11 @@
     if (icon) icon.textContent = state.theme === "dark" ? "light_mode" : "dark_mode";
     lsSet("theme", state.theme);
   }
-  function applyLangChrome() {
-    var label = document.getElementById("langLabel");
-    if (label) label.textContent = state.lang === "en" ? "EN" : "中";
-    lsSet("lang", state.lang);
-  }
 
   function wire() {
     document.getElementById("themeToggle").addEventListener("click", function () {
       state.theme = state.theme === "dark" ? "light" : "dark";
       applyTheme();
-    });
-    document.getElementById("langToggle").addEventListener("click", function () {
-      state.lang = state.lang === "en" ? "zh" : "en";
-      applyLangChrome();
-      refreshChrome();
-      langSubscribers.forEach(function (fn) { try { fn(state.lang); } catch (e) {} });
     });
   }
 
@@ -233,11 +255,10 @@
   window.LDW = {
     ready: false,          // flipped true once the chrome (incl. #dialog) is injected
     state: state,
-    t: t, ui: ui, escapeHtml: escapeHtml, r: r,
+    t: t, ui: ui, classLabel: classLabel, escapeHtml: escapeHtml, r: r,
     lsGet: lsGet, lsSet: lsSet,
     pages: PAGES, meta: META,
     currentPage: currentPage, currentSlug: currentSlug, pageHref: pageHref,
-    onLang: onLang,
     refreshChrome: refreshChrome,
     dialog: function () { return document.getElementById("dialog"); }
   };
@@ -268,7 +289,6 @@
     injectChrome();
     loadStars();
     applyTheme();
-    applyLangChrome();
     refreshChrome();
     wire();
     window.LDW.ready = true;

@@ -12,7 +12,7 @@
 |---|---|
 | 🌐 網站 | <https://stanford-cs183-startup.peteraim.com/> |
 
-> 直接點進去就能用,無需安裝。每堂課有獨立網址(`/class-11.html`),課內段落可用 `#<section-id>` 深連結。
+> 直接點進去就能用,無需安裝。每堂課有獨立網址(英文 `/class-11.html`、中文 `/zh-Hant/class-11.html`),課內段落可用 `#<section-id>` 深連結。
 
 ---
 
@@ -23,7 +23,7 @@
 - 🧠 **隨堂測驗 + 總測驗** — 每課 3 題即點即答(✅/❌ + 解析),另有跨 19 課的總測驗頁
 - 🃏 **字卡復習** — 翻卡式 deck,支援鍵盤方向鍵與洗牌
 - 📖 **術語表** — 全課程關鍵概念,可即時搜尋,並連回出處課次
-- 🌏 **雙語切換** — English / 繁體中文一鍵全站切換
+- 🌏 **雙語各有網址** — 英文在 root、繁體中文在 `/zh-Hant/`,同一頁兩種語言各自可連結、可分享;右上角的語言鈕是連結,點下去換的是網址
 - 🌗 **深色 / 淺色模式** — 手動切換並記憶偏好
 - 📱 **響應式設計** — 手機、平板、桌機皆適配
 - ⚡ **純靜態** — 無後端、無 build step,clone 下來直接開
@@ -36,11 +36,14 @@
 
 ```
 stanford-cs183-startup/
-├── index.html            # 首頁:課程總覽 + 19 課大綱
-├── class-1.html … class-19.html   # 每堂課一頁
+├── index.html            # 英文首頁:課程總覽 + 19 課大綱
+├── class-1.html … class-19.html   # 每堂課一頁(英文)
 ├── glossary.html         # 術語表
 ├── flashcards.html       # 字卡
 ├── quiz.html             # 總測驗
+├── zh-Hant/              # 中文版:與上面 23 頁一一對應
+├── sitemap.xml           # 兩種語言共 46 個網址
+├── robots.txt
 ├── assets/
 │   ├── styles.css        # 樣式(深淺色 design tokens)
 │   ├── shell.js          # 共用 chrome(app bar / 導覽 / footer)
@@ -48,6 +51,9 @@ stanford-cs183-startup/
 └── data/
     └── data.js           # 全站資料(雙語)
 ```
+
+> `/zh-Hant/` 底下的頁面共用 root 的 `assets/` 與 `data/`,不另外複製一份;
+> 每一頁的語言由自己的 `<html lang>` 決定,兩邊互相以 `hreflang` 標註。
 
 > ⚠️ **非官方**:本網站為個人整理之非官方學習資源。課程觀點屬 Peter Thiel,原文著作權屬 Blake Masters;如有錯誤或出入,請以原文為準。「當年 vs. 現在」段落之現況資訊整理自公開報導,並附來源連結。
 
